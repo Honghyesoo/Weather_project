@@ -3,6 +3,7 @@ package zerobase.weather.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import zerobase.weather.dto.MemberDto;
+import zerobase.weather.dto.PasswordDto;
 import zerobase.weather.service.MemberSerivce;
 
 @RestController
@@ -17,8 +18,9 @@ public class MemberController {
     }
 
     @DeleteMapping("/delete/member")
-    public void deleteMember(@RequestParam(value = "id") Long id){
-        memberSerivce.deleteMember(id);
+    public void deleteMember(@RequestParam(value = "id") Long id,
+                             @RequestBody PasswordDto passwordDto) {
+        memberSerivce.deleteMember(id, passwordDto.getPassword());
     }
 
     //관리자만 볼 수 있는 회원 목록

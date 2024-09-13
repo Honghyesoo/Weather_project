@@ -8,8 +8,6 @@ import zerobase.weather.exception.MemberException;
 import zerobase.weather.mapper.MemberMapper;
 import zerobase.weather.repository.MemberRepository;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class MemberSerivce {
@@ -31,8 +29,11 @@ public class MemberSerivce {
         // 저장된 회원 엔티티를 DTO로 변환
         return MemberMapper.toDto(entity);
     }
-    public void deleteMember(Long id){
-        memberRepository.deleteById(id);
+    public void deleteMember(Long id, String password) {
+        int deletedCount = memberRepository.deleteMemberByIdAndPassword(id, password);
+        if (deletedCount == 0) {
+            throw new RuntimeException("회원 삭제에 실패했습니다. ID 또는 비밀번호가 일치하지 않습니다.");
+        }
     }
 
 }
